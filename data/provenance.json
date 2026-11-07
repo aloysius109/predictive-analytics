@@ -1,0 +1,15 @@
+{
+  "provider": "UNHCR",
+  "dataset": "Asylum decisions",
+  "source_url": "https://api.unhcr.org/population/v1/asylum-decisions/?yearFrom=2000&download=true&coo_all=true&coa_all=true&cf_type=ISO",
+  "metadata_url": "https://refugeedata.unhcr.org/en/data-finder/detail/AsylumDecisions/metadata/",
+  "snapshot_origin": "Existing asylum-tracker repository, asylum-decisions.csv; not refreshed during model development",
+  "raw_csv_sha256": "5112b825e82d64b707242bb8775f3d9071b31fec669afccef857358658384415",
+  "compressed_sha256": "b3137a3fc535fcf4631b3eb41a781911bf2218b639dfecf8e37179c297acb02d",
+  "years": [
+    2000,
+    2025
+  ],
+  "snapshot_copied_date": "2026-11-07",
+  "original_retrieval_date": "unknown"
+}

@@ -1,0 +1,1712 @@
+{
+  "source_sha256": "b3137a3fc535fcf4631b3eb41a781911bf2218b639dfecf8e37179c297acb02d",
+  "data_audit": {
+    "input_rows": 113929,
+    "excluded_non_country_rows": 2096,
+    "exact_duplicate_rows": 0,
+    "rows_with_reported_total_mismatch": 418,
+    "excluded_zero_outcome_groups": 14,
+    "grouped_rows": 85418
+  },
+  "snapshot_years": [
+    2000,
+    2025
+  ],
+  "test_protocol": "C selected on validation year only; test fitted on years before test; production refitted through test year.",
+  "units": {
+    "P": {
+      "candidates": [
+        {
+          "C": 0.1,
+          "validation_log_loss": 0.8625171751196073
+        },
+        {
+          "C": 1.0,
+          "validation_log_loss": 0.8682666208217782
+        },
+        {
+          "C": 10.0,
+          "validation_log_loss": 0.8884093381122731
+        }
+      ],
+      "selected_C": 0.1,
+      "validation_year": 2024,
+      "test_year": 2025,
+      "test": {
+        "decisions": 2375264,
+        "log_loss": 0.94672235994354,
+        "multiclass_brier": 0.5395153936544929,
+        "observed_shares": {
+          "grant": 0.205672716801164,
+          "other_protection": 0.06927987794198877,
+          "refusal": 0.36635043515162946,
+          "administrative_closure": 0.3586969701052178
+        },
+        "predicted_shares": {
+          "grant": 0.25430867627518927,
+          "other_protection": 0.09825279563867714,
+          "refusal": 0.31516508766716783,
+          "administrative_closure": 0.3322734404189656
+        },
+        "calibration": {
+          "grant": [
+            {
+              "bin": 0,
+              "decisions": 841089,
+              "predicted": 0.049731580042720734,
+              "observed": 0.037148268494772846
+            },
+            {
+              "bin": 1,
+              "decisions": 594568,
+              "predicted": 0.15104338959443742,
+              "observed": 0.18281172212429864
+            },
+            {
+              "bin": 2,
+              "decisions": 250403,
+              "predicted": 0.24792415261498912,
+              "observed": 0.1923619125968938
+            },
+            {
+              "bin": 3,
+              "decisions": 156384,
+              "predicted": 0.3518737878651213,
+              "observed": 0.36663597298956413
+            },
+            {
+              "bin": 4,
+              "decisions": 89788,
+              "predicted": 0.4476715788186833,
+              "observed": 0.4531229117476723
+            },
+            {
+              "bin": 5,
+              "decisions": 122338,
+              "predicted": 0.5575622459043994,
+              "observed": 0.39981036145760107
+            },
+            {
+              "bin": 6,
+              "decisions": 47759,
+              "predicted": 0.655413260765292,
+              "observed": 0.5209698695533826
+            },
+            {
+              "bin": 7,
+              "decisions": 191464,
+              "predicted": 0.7536394751878835,
+              "observed": 0.3090659340659341
+            },
+            {
+              "bin": 8,
+              "decisions": 55484,
+              "predicted": 0.853829260059445,
+              "observed": 0.8387463052411506
+            },
+            {
+              "bin": 9,
+              "decisions": 25987,
+              "predicted": 0.9208624236194631,
+              "observed": 0.8809789510139685
+            }
+          ],
+          "other_protection": [
+            {
+              "bin": 0,
+              "decisions": 1926576,
+              "predicted": 0.021610009283002902,
+              "observed": 0.012186386625806612
+            },
+            {
+              "bin": 1,
+              "decisions": 99942,
+              "predicted": 0.15801146364716967,
+              "observed": 0.10029817294030538
+            },
+            {
+              "bin": 2,
+              "decisions": 51067,
+              "predicted": 0.24887726065798624,
+              "observed": 0.3821841893982415
+            },
+            {
+              "bin": 3,
+              "decisions": 47761,
+              "predicted": 0.33684798221767936,
+              "observed": 0.1914114026088231
+            },
+            {
+              "bin": 4,
+              "decisions": 126843,
+              "predicted": 0.43071694137727307,
+              "observed": 0.21397317944230268
+            },
+            {
+              "bin": 5,
+              "decisions": 48390,
+              "predicted": 0.59315973384853,
+              "observed": 0.08997726803058483
+            },
+            {
+              "bin": 6,
+              "decisions": 8752,
+              "predicted": 0.6254294777590993,
+              "observed": 0.7368601462522852
+            },
+            {
+              "bin": 7,
+              "decisions": 8446,
+              "predicted": 0.7209926096135886,
+              "observed": 0.9602178546057305
+            },
+            {
+              "bin": 8,
+              "decisions": 433,
+              "predicted": 0.8246144084190324,
+              "observed": 0.18937644341801385
+            },
+            {
+              "bin": 9,
+              "decisions": 57054,
+              "predicted": 0.9096060041699633,
+              "observed": 0.986100886879097
+            }
+          ],
+          "refusal": [
+            {
+              "bin": 0,
+              "decisions": 642280,
+              "predicted": 0.048255121883797186,
+              "observed": 0.05739397147661456
+            },
+            {
+              "bin": 1,
+              "decisions": 446378,
+              "predicted": 0.1462681283816022,
+              "observed": 0.18250451411135854
+            },
+            {
+              "bin": 2,
+              "decisions": 280546,
+              "predicted": 0.2578581550780966,
+              "observed": 0.36784341961746025
+            },
+            {
+              "bin": 3,
+              "decisions": 203966,
+              "predicted": 0.34045349464917685,
+              "observed": 0.4588460821901689
+            },
+            {
+              "bin": 4,
+              "decisions": 261946,
+              "predicted": 0.4518411771543909,
+              "observed": 0.5591954066868744
+            },
+            {
+              "bin": 5,
+              "decisions": 126416,
+              "predicted": 0.5527239393505635,
+              "observed": 0.5940624604480446
+            },
+            {
+              "bin": 6,
+              "decisions": 101518,
+              "predicted": 0.66525344849499,
+              "observed": 0.7590772079828207
+            },
+            {
+              "bin": 7,
+              "decisions": 136438,
+              "predicted": 0.7527478095691723,
+              "observed": 0.8109910728682626
+            },
+            {
+              "bin": 8,
+              "decisions": 134430,
+              "predicted": 0.8459398994071721,
+              "observed": 0.8556572193706762
+            },
+            {
+              "bin": 9,
+              "decisions": 41346,
+              "predicted": 0.9274090993765589,
+              "observed": 0.7437236975765491
+            }
+          ],
+          "administrative_closure": [
+            {
+              "bin": 0,
+              "decisions": 601718,
+              "predicted": 0.05037826724584403,
+              "observed": 0.06216367135435536
+            },
+            {
+              "bin": 1,
+              "decisions": 403069,
+              "predicted": 0.15232277474099343,
+              "observed": 0.396723637888302
+            },
+            {
+              "bin": 2,
+              "decisions": 258279,
+              "predicted": 0.24521324884435752,
+              "observed": 0.19323677108862897
+            },
+            {
+              "bin": 3,
+              "decisions": 286436,
+              "predicted": 0.35685130148980876,
+              "observed": 0.3505146001200966
+            },
+            {
+              "bin": 4,
+              "decisions": 151031,
+              "predicted": 0.44609668629390875,
+              "observed": 0.4181260800762757
+            },
+            {
+              "bin": 5,
+              "decisions": 199217,
+              "predicted": 0.559817011649897,
+              "observed": 0.5106843291486168
+            },
+            {
+              "bin": 6,
+              "decisions": 242086,
+              "predicted": 0.6414490317656029,
+              "observed": 0.6383062217559049
+            },
+            {
+              "bin": 7,
+              "decisions": 50763,
+              "predicted": 0.7379838710115069,
+              "observed": 0.6735614522388353
+            },
+            {
+              "bin": 8,
+              "decisions": 114689,
+              "predicted": 0.8385509411383999,
+              "observed": 0.7619475276617635
+            },
+            {
+              "bin": 9,
+              "decisions": 67976,
+              "predicted": 0.9438387330071505,
+              "observed": 0.9325055902083088
+            }
+          ]
+        }
+      },
+      "baselines": {
+        "global_frequency": {
+          "decisions": 2375264,
+          "log_loss": 1.2631587394177322,
+          "multiclass_brier": 0.6974237135934093,
+          "observed_shares": {
+            "grant": 0.205672716801164,
+            "other_protection": 0.06927987794198877,
+            "refusal": 0.36635043515162946,
+            "administrative_closure": 0.3586969701052178
+          },
+          "predicted_shares": {
+            "grant": 0.23765855195720784,
+            "other_protection": 0.10461814716812486,
+            "refusal": 0.37052146886380666,
+            "administrative_closure": 0.28720183201085236
+          },
+          "calibration": {
+            "grant": [
+              {
+                "bin": 2,
+                "decisions": 2375264,
+                "predicted": 0.2376585519572113,
+                "observed": 0.205672716801164
+              }
+            ],
+            "other_protection": [
+              {
+                "bin": 1,
+                "decisions": 2375264,
+                "predicted": 0.1046181471681271,
+                "observed": 0.06927987794198877
+              }
+            ],
+            "refusal": [
+              {
+                "bin": 3,
+                "decisions": 2375264,
+                "predicted": 0.37052146886381104,
+                "observed": 0.36635043515162946
+              }
+            ],
+            "administrative_closure": [
+              {
+                "bin": 2,
+                "decisions": 2375264,
+                "predicted": 0.2872018320108505,
+                "observed": 0.3586969701052178
+              }
+            ]
+          }
+        },
+        "smoothed_route_frequency": {
+          "decisions": 2375264,
+          "log_loss": 1.0707173439774522,
+          "multiclass_brier": 0.5588901749185432,
+          "observed_shares": {
+            "grant": 0.205672716801164,
+            "other_protection": 0.06927987794198877,
+            "refusal": 0.36635043515162946,
+            "administrative_closure": 0.3586969701052178
+          },
+          "predicted_shares": {
+            "grant": 0.24024620623437654,
+            "other_protection": 0.0907390224639981,
+            "refusal": 0.37837072611667977,
+            "administrative_closure": 0.2906440451849461
+          },
+          "calibration": {
+            "grant": [
+              {
+                "bin": 0,
+                "decisions": 944058,
+                "predicted": 0.04135101792464629,
+                "observed": 0.05325202476966458
+              },
+              {
+                "bin": 1,
+                "decisions": 543756,
+                "predicted": 0.15242719334301344,
+                "observed": 0.19102685763467436
+              },
+              {
+                "bin": 2,
+                "decisions": 177964,
+                "predicted": 0.2465709771577954,
+                "observed": 0.27815738014429886
+              },
+              {
+                "bin": 3,
+                "decisions": 234701,
+                "predicted": 0.3572281445529153,
+                "observed": 0.34053114388093786
+              },
+              {
+                "bin": 4,
+                "decisions": 128309,
+                "predicted": 0.4435433971389686,
+                "observed": 0.2963938616932561
+              },
+              {
+                "bin": 5,
+                "decisions": 76076,
+                "predicted": 0.5482215841238216,
+                "observed": 0.38763867711236133
+              },
+              {
+                "bin": 6,
+                "decisions": 90426,
+                "predicted": 0.6529610930425429,
+                "observed": 0.5811381682259528
+              },
+              {
+                "bin": 7,
+                "decisions": 33326,
+                "predicted": 0.7420131829048823,
+                "observed": 0.6081437916341595
+              },
+              {
+                "bin": 8,
+                "decisions": 44022,
+                "predicted": 0.8494727666910166,
+                "observed": 0.7954431874971605
+              },
+              {
+                "bin": 9,
+                "decisions": 102626,
+                "predicted": 0.9862904936624729,
+                "observed": 0.28845516730653054
+              }
+            ],
+            "other_protection": [
+              {
+                "bin": 0,
+                "decisions": 1822914,
+                "predicted": 0.015359770737450774,
+                "observed": 0.0168581732325277
+              },
+              {
+                "bin": 1,
+                "decisions": 186884,
+                "predicted": 0.12982371578613194,
+                "observed": 0.06477815115258663
+              },
+              {
+                "bin": 2,
+                "decisions": 81364,
+                "predicted": 0.2460161877940377,
+                "observed": 0.13928764564180718
+              },
+              {
+                "bin": 3,
+                "decisions": 167446,
+                "predicted": 0.34080915405721873,
+                "observed": 0.15302843901914648
+              },
+              {
+                "bin": 4,
+                "decisions": 19982,
+                "predicted": 0.4244455665669246,
+                "observed": 0.3118306475828245
+              },
+              {
+                "bin": 5,
+                "decisions": 18903,
+                "predicted": 0.5316151437293297,
+                "observed": 0.4169179495318203
+              },
+              {
+                "bin": 6,
+                "decisions": 4010,
+                "predicted": 0.6579278153485959,
+                "observed": 0.5483790523690774
+              },
+              {
+                "bin": 7,
+                "decisions": 5298,
+                "predicted": 0.7463680337775315,
+                "observed": 0.2995469988674972
+              },
+              {
+                "bin": 8,
+                "decisions": 10640,
+                "predicted": 0.8178086851580737,
+                "observed": 0.9284774436090225
+              },
+              {
+                "bin": 9,
+                "decisions": 57823,
+                "predicted": 0.9055082088318415,
+                "observed": 0.9855420853293672
+              }
+            ],
+            "refusal": [
+              {
+                "bin": 0,
+                "decisions": 470515,
+                "predicted": 0.038227984250233285,
+                "observed": 0.053220407425905655
+              },
+              {
+                "bin": 1,
+                "decisions": 264264,
+                "predicted": 0.1455602924829048,
+                "observed": 0.11033663306390579
+              },
+              {
+                "bin": 2,
+                "decisions": 335360,
+                "predicted": 0.2559332192730774,
+                "observed": 0.19388716603053435
+              },
+              {
+                "bin": 3,
+                "decisions": 306249,
+                "predicted": 0.3424349506041427,
+                "observed": 0.386352281966635
+              },
+              {
+                "bin": 4,
+                "decisions": 165747,
+                "predicted": 0.4486415143565151,
+                "observed": 0.41478880462391476
+              },
+              {
+                "bin": 5,
+                "decisions": 270160,
+                "predicted": 0.5363645782428094,
+                "observed": 0.5294603198104827
+              },
+              {
+                "bin": 6,
+                "decisions": 148577,
+                "predicted": 0.6582070017036157,
+                "observed": 0.6669269133176736
+              },
+              {
+                "bin": 7,
+                "decisions": 185642,
+                "predicted": 0.753257707691972,
+                "observed": 0.7132868639639737
+              },
+              {
+                "bin": 8,
+                "decisions": 200202,
+                "predicted": 0.8419643821893328,
+                "observed": 0.841999580423772
+              },
+              {
+                "bin": 9,
+                "decisions": 28548,
+                "predicted": 0.9148862200137359,
+                "observed": 0.7276516743729858
+              }
+            ],
+            "administrative_closure": [
+              {
+                "bin": 0,
+                "decisions": 722291,
+                "predicted": 0.04391090759181409,
+                "observed": 0.15417331795633615
+              },
+              {
+                "bin": 1,
+                "decisions": 332276,
+                "predicted": 0.14690164692509186,
+                "observed": 0.22088564927951462
+              },
+              {
+                "bin": 2,
+                "decisions": 308183,
+                "predicted": 0.24538696112007194,
+                "observed": 0.3006492895454973
+              },
+              {
+                "bin": 3,
+                "decisions": 369950,
+                "predicted": 0.34087759602310846,
+                "observed": 0.43078794431679956
+              },
+              {
+                "bin": 4,
+                "decisions": 136928,
+                "predicted": 0.44167397303362554,
+                "observed": 0.4934856274830568
+              },
+              {
+                "bin": 5,
+                "decisions": 182031,
+                "predicted": 0.5460266377886668,
+                "observed": 0.6138514868346601
+              },
+              {
+                "bin": 6,
+                "decisions": 121351,
+                "predicted": 0.632184811182901,
+                "observed": 0.5932707600266994
+              },
+              {
+                "bin": 7,
+                "decisions": 99034,
+                "predicted": 0.7602336731894196,
+                "observed": 0.8056929943251813
+              },
+              {
+                "bin": 8,
+                "decisions": 29049,
+                "predicted": 0.8623941550822862,
+                "observed": 0.8075665255258356
+              },
+              {
+                "bin": 9,
+                "decisions": 74171,
+                "predicted": 0.959512461192909,
+                "observed": 0.8179207506977121
+              }
+            ]
+          }
+        }
+      },
+      "test_seen_routes": {
+        "decisions": 2374348,
+        "log_loss": 0.9467526125719801,
+        "multiclass_brier": 0.539532826645591,
+        "observed_shares": {
+          "grant": 0.2057032077858848,
+          "other_protection": 0.06930239375188472,
+          "refusal": 0.3663810022793626,
+          "administrative_closure": 0.35861339618286786
+        },
+        "predicted_shares": {
+          "grant": 0.2543421946251125,
+          "other_protection": 0.09828260678390034,
+          "refusal": 0.31516619000153917,
+          "administrative_closure": 0.3322090085894478
+        },
+        "calibration": {
+          "grant": [
+            {
+              "bin": 0,
+              "decisions": 840678,
+              "predicted": 0.049733027554624165,
+              "observed": 0.037136692050939835
+            },
+            {
+              "bin": 1,
+              "decisions": 594328,
+              "predicted": 0.15104878465045726,
+              "observed": 0.18285189323067397
+            },
+            {
+              "bin": 2,
+              "decisions": 250327,
+              "predicted": 0.24792722658481836,
+              "observed": 0.19238036648064333
+            },
+            {
+              "bin": 3,
+              "decisions": 156260,
+              "predicted": 0.35187890559383045,
+              "observed": 0.36672852937412004
+            },
+            {
+              "bin": 4,
+              "decisions": 89773,
+              "predicted": 0.44766906030294595,
+              "observed": 0.4531429271607276
+            },
+            {
+              "bin": 5,
+              "decisions": 122328,
+              "predicted": 0.5575660316787339,
+              "observed": 0.39984304492838924
+            },
+            {
+              "bin": 6,
+              "decisions": 47739,
+              "predicted": 0.6554199729577072,
+              "observed": 0.5209786547686378
+            },
+            {
+              "bin": 7,
+              "decisions": 191449,
+              "predicted": 0.7536404611726263,
+              "observed": 0.30903791610298303
+            },
+            {
+              "bin": 8,
+              "decisions": 55479,
+              "predicted": 0.853829911274837,
+              "observed": 0.8387317723823429
+            },
+            {
+              "bin": 9,
+              "decisions": 25987,
+              "predicted": 0.9208624236194631,
+              "observed": 0.8809789510139685
+            }
+          ],
+          "other_protection": [
+            {
+              "bin": 0,
+              "decisions": 1925660,
+              "predicted": 0.02161030904554485,
+              "observed": 0.01218699043444845
+            },
+            {
+              "bin": 1,
+              "decisions": 99942,
+              "predicted": 0.15801146364716967,
+              "observed": 0.10029817294030538
+            },
+            {
+              "bin": 2,
+              "decisions": 51067,
+              "predicted": 0.24887726065798624,
+              "observed": 0.3821841893982415
+            },
+            {
+              "bin": 3,
+              "decisions": 47761,
+              "predicted": 0.33684798221767936,
+              "observed": 0.1914114026088231
+            },
+            {
+              "bin": 4,
+              "decisions": 126843,
+              "predicted": 0.43071694137727307,
+              "observed": 0.21397317944230268
+            },
+            {
+              "bin": 5,
+              "decisions": 48390,
+              "predicted": 0.59315973384853,
+              "observed": 0.08997726803058483
+            },
+            {
+              "bin": 6,
+              "decisions": 8752,
+              "predicted": 0.6254294777590993,
+              "observed": 0.7368601462522852
+            },
+            {
+              "bin": 7,
+              "decisions": 8446,
+              "predicted": 0.7209926096135886,
+              "observed": 0.9602178546057305
+            },
+            {
+              "bin": 8,
+              "decisions": 433,
+              "predicted": 0.8246144084190324,
+              "observed": 0.18937644341801385
+            },
+            {
+              "bin": 9,
+              "decisions": 57054,
+              "predicted": 0.9096060041699633,
+              "observed": 0.986100886879097
+            }
+          ],
+          "refusal": [
+            {
+              "bin": 0,
+              "decisions": 642119,
+              "predicted": 0.048254105256599164,
+              "observed": 0.057385001845452324
+            },
+            {
+              "bin": 1,
+              "decisions": 446242,
+              "predicted": 0.1462694880451724,
+              "observed": 0.18256013553184147
+            },
+            {
+              "bin": 2,
+              "decisions": 280380,
+              "predicted": 0.25786307806676084,
+              "observed": 0.36791853912547257
+            },
+            {
+              "bin": 3,
+              "decisions": 203806,
+              "predicted": 0.3404456847248174,
+              "observed": 0.4590345720930689
+            },
+            {
+              "bin": 4,
+              "decisions": 261838,
+              "predicted": 0.45183832104398686,
+              "observed": 0.5591281632154232
+            },
+            {
+              "bin": 5,
+              "decisions": 126306,
+              "predicted": 0.5527270100011085,
+              "observed": 0.5941443795227463
+            },
+            {
+              "bin": 6,
+              "decisions": 101468,
+              "predicted": 0.6652707816852645,
+              "observed": 0.75910631923365
+            },
+            {
+              "bin": 7,
+              "decisions": 136423,
+              "predicted": 0.7527508044967419,
+              "observed": 0.8110802430675179
+            },
+            {
+              "bin": 8,
+              "decisions": 134420,
+              "predicted": 0.8459393529194857,
+              "observed": 0.8556836780241036
+            },
+            {
+              "bin": 9,
+              "decisions": 41346,
+              "predicted": 0.9274090993765589,
+              "observed": 0.7437236975765491
+            }
+          ],
+          "administrative_closure": [
+            {
+              "bin": 0,
+              "decisions": 601698,
+              "predicted": 0.050378118635627724,
+              "observed": 0.06215742781262361
+            },
+            {
+              "bin": 1,
+              "decisions": 402996,
+              "predicted": 0.15232375495508135,
+              "observed": 0.39677068755024864
+            },
+            {
+              "bin": 2,
+              "decisions": 258194,
+              "predicted": 0.2452061205604953,
+              "observed": 0.1931454642633059
+            },
+            {
+              "bin": 3,
+              "decisions": 286296,
+              "predicted": 0.3568553203552104,
+              "observed": 0.35047642998854334
+            },
+            {
+              "bin": 4,
+              "decisions": 150901,
+              "predicted": 0.44608627362913117,
+              "observed": 0.4180886806581799
+            },
+            {
+              "bin": 5,
+              "decisions": 199025,
+              "predicted": 0.5598169272134224,
+              "observed": 0.510594146464012
+            },
+            {
+              "bin": 6,
+              "decisions": 241956,
+              "predicted": 0.6414478997799853,
+              "observed": 0.6381738828547339
+            },
+            {
+              "bin": 7,
+              "decisions": 50733,
+              "predicted": 0.7379812855466655,
+              "observed": 0.6734669741588315
+            },
+            {
+              "bin": 8,
+              "decisions": 114608,
+              "predicted": 0.8385438539906281,
+              "observed": 0.7618229093955047
+            },
+            {
+              "bin": 9,
+              "decisions": 67941,
+              "predicted": 0.9438495566256517,
+              "observed": 0.932691600064762
+            }
+          ]
+        }
+      },
+      "test_unseen_routes": {
+        "decisions": 916,
+        "log_loss": 0.8683050369836972,
+        "multiclass_brier": 0.49432763432305354,
+        "observed_shares": {
+          "grant": 0.12663755458515283,
+          "other_protection": 0.010917030567685589,
+          "refusal": 0.287117903930131,
+          "administrative_closure": 0.5753275109170306
+        },
+        "predicted_shares": {
+          "grant": 0.16742633227557718,
+          "other_protection": 0.020979833806435397,
+          "refusal": 0.31230774551667567,
+          "administrative_closure": 0.4992860884013117
+        },
+        "calibration": {
+          "grant": [
+            {
+              "bin": 0,
+              "decisions": 411,
+              "predicted": 0.04677077368760956,
+              "observed": 0.06082725060827251
+            },
+            {
+              "bin": 1,
+              "decisions": 240,
+              "predicted": 0.13768325270218393,
+              "observed": 0.08333333333333333
+            },
+            {
+              "bin": 2,
+              "decisions": 76,
+              "predicted": 0.23779918359579355,
+              "observed": 0.13157894736842105
+            },
+            {
+              "bin": 3,
+              "decisions": 124,
+              "predicted": 0.3454246242514908,
+              "observed": 0.25
+            },
+            {
+              "bin": 4,
+              "decisions": 15,
+              "predicted": 0.462744559705436,
+              "observed": 0.3333333333333333
+            },
+            {
+              "bin": 5,
+              "decisions": 10,
+              "predicted": 0.5112516256275513,
+              "observed": 0.0
+            },
+            {
+              "bin": 6,
+              "decisions": 20,
+              "predicted": 0.6393915930800536,
+              "observed": 0.5
+            },
+            {
+              "bin": 7,
+              "decisions": 15,
+              "predicted": 0.7410550889875233,
+              "observed": 0.6666666666666666
+            },
+            {
+              "bin": 8,
+              "decisions": 5,
+              "predicted": 0.8466035043121904,
+              "observed": 1.0
+            }
+          ],
+          "other_protection": [
+            {
+              "bin": 0,
+              "decisions": 916,
+              "predicted": 0.020979833806435394,
+              "observed": 0.010917030567685589
+            }
+          ],
+          "refusal": [
+            {
+              "bin": 0,
+              "decisions": 161,
+              "predicted": 0.052309753186701925,
+              "observed": 0.09316770186335403
+            },
+            {
+              "bin": 1,
+              "decisions": 136,
+              "predicted": 0.14180681227198888,
+              "observed": 0.0
+            },
+            {
+              "bin": 2,
+              "decisions": 166,
+              "predicted": 0.24954304928495194,
+              "observed": 0.24096385542168675
+            },
+            {
+              "bin": 3,
+              "decisions": 160,
+              "predicted": 0.35040167867419963,
+              "observed": 0.21875
+            },
+            {
+              "bin": 4,
+              "decisions": 108,
+              "predicted": 0.45876560526548726,
+              "observed": 0.7222222222222222
+            },
+            {
+              "bin": 5,
+              "decisions": 110,
+              "predicted": 0.5491981067348947,
+              "observed": 0.5
+            },
+            {
+              "bin": 6,
+              "decisions": 50,
+              "predicted": 0.6300781654793832,
+              "observed": 0.7
+            },
+            {
+              "bin": 7,
+              "decisions": 15,
+              "predicted": 0.725509342646893,
+              "observed": 0.0
+            },
+            {
+              "bin": 8,
+              "decisions": 10,
+              "predicted": 0.8532857868867867,
+              "observed": 0.5
+            }
+          ],
+          "administrative_closure": [
+            {
+              "bin": 0,
+              "decisions": 20,
+              "predicted": 0.054849190742212596,
+              "observed": 0.25
+            },
+            {
+              "bin": 1,
+              "decisions": 73,
+              "predicted": 0.14691150958252747,
+              "observed": 0.136986301369863
+            },
+            {
+              "bin": 2,
+              "decisions": 85,
+              "predicted": 0.26686595618003456,
+              "observed": 0.47058823529411764
+            },
+            {
+              "bin": 3,
+              "decisions": 140,
+              "predicted": 0.348632836568173,
+              "observed": 0.42857142857142855
+            },
+            {
+              "bin": 4,
+              "decisions": 130,
+              "predicted": 0.45818346727540765,
+              "observed": 0.46153846153846156
+            },
+            {
+              "bin": 5,
+              "decisions": 192,
+              "predicted": 0.5599045375320323,
+              "observed": 0.6041666666666666
+            },
+            {
+              "bin": 6,
+              "decisions": 130,
+              "predicted": 0.6435558833972186,
+              "observed": 0.8846153846153846
+            },
+            {
+              "bin": 7,
+              "decisions": 30,
+              "predicted": 0.742356150604401,
+              "observed": 0.8333333333333334
+            },
+            {
+              "bin": 8,
+              "decisions": 81,
+              "predicted": 0.8485786427656123,
+              "observed": 0.9382716049382716
+            },
+            {
+              "bin": 9,
+              "decisions": 35,
+              "predicted": 0.9228282340184945,
+              "observed": 0.5714285714285714
+            }
+          ]
+        }
+      },
+      "train_years": [
+        2000,
+        2024
+      ]
+    },
+    "C": {
+      "candidates": [
+        {
+          "C": 0.1,
+          "validation_log_loss": 0.9494297104312732
+        },
+        {
+          "C": 1.0,
+          "validation_log_loss": 0.9986604301372253
+        },
+        {
+          "C": 10.0,
+          "validation_log_loss": 1.0285864630835575
+        }
+      ],
+      "selected_C": 0.1,
+      "validation_year": 2023,
+      "test_year": 2025,
+      "test": {
+        "decisions": 46738,
+        "log_loss": 1.3232168727119729,
+        "multiclass_brier": 0.7957921944689355,
+        "observed_shares": {
+          "grant": 0.05019470238349951,
+          "other_protection": 0.0,
+          "refusal": 0.41638495442680473,
+          "administrative_closure": 0.5334203431896958
+        },
+        "predicted_shares": {
+          "grant": 0.26963849950083413,
+          "other_protection": 0.0009459265544809567,
+          "refusal": 0.5584255813301778,
+          "administrative_closure": 0.17098999261450734
+        },
+        "calibration": {
+          "grant": [
+            {
+              "bin": 0,
+              "decisions": 31,
+              "predicted": 0.09025248585648027,
+              "observed": 0.0
+            },
+            {
+              "bin": 1,
+              "decisions": 4160,
+              "predicted": 0.15256045070247626,
+              "observed": 0.02403846153846154
+            },
+            {
+              "bin": 2,
+              "decisions": 21803,
+              "predicted": 0.22674846282095346,
+              "observed": 0.012796404164564509
+            },
+            {
+              "bin": 3,
+              "decisions": 17524,
+              "predicted": 0.3223202753471327,
+              "observed": 0.08451266834056152
+            },
+            {
+              "bin": 4,
+              "decisions": 2893,
+              "predicted": 0.41031024606072775,
+              "observed": 0.08468717594192879
+            },
+            {
+              "bin": 5,
+              "decisions": 327,
+              "predicted": 0.5680431368931073,
+              "observed": 0.7370030581039755
+            }
+          ],
+          "other_protection": [
+            {
+              "bin": 0,
+              "decisions": 46738,
+              "predicted": 0.0009459265544809567,
+              "observed": 0.0
+            }
+          ],
+          "refusal": [
+            {
+              "bin": 2,
+              "decisions": 5,
+              "predicted": 0.2986325769109691,
+              "observed": 1.0
+            },
+            {
+              "bin": 3,
+              "decisions": 836,
+              "predicted": 0.37048660490050783,
+              "observed": 0.26555023923444976
+            },
+            {
+              "bin": 4,
+              "decisions": 12111,
+              "predicted": 0.4588134069474359,
+              "observed": 0.710841383865907
+            },
+            {
+              "bin": 5,
+              "decisions": 12176,
+              "predicted": 0.5302041139164401,
+              "observed": 0.7371879106438897
+            },
+            {
+              "bin": 6,
+              "decisions": 20023,
+              "predicted": 0.6276864588672759,
+              "observed": 0.03121410378065225
+            },
+            {
+              "bin": 7,
+              "decisions": 1587,
+              "predicted": 0.7610928967498605,
+              "observed": 0.6452425960932577
+            }
+          ],
+          "administrative_closure": [
+            {
+              "bin": 0,
+              "decisions": 485,
+              "predicted": 0.08870660787002396,
+              "observed": 0.10515463917525773
+            },
+            {
+              "bin": 1,
+              "decisions": 37502,
+              "predicted": 0.14873488016730657,
+              "observed": 0.6050610634099515
+            },
+            {
+              "bin": 2,
+              "decisions": 6108,
+              "predicted": 0.2263998916412194,
+              "observed": 0.13948919449901767
+            },
+            {
+              "bin": 3,
+              "decisions": 1626,
+              "predicted": 0.33799934796350856,
+              "observed": 0.5178351783517835
+            },
+            {
+              "bin": 4,
+              "decisions": 1017,
+              "predicted": 0.43108615145754026,
+              "observed": 0.48672566371681414
+            }
+          ]
+        }
+      },
+      "baselines": {
+        "global_frequency": {
+          "decisions": 46738,
+          "log_loss": 0.9990909508123905,
+          "multiclass_brier": 0.5955585012355816,
+          "observed_shares": {
+            "grant": 0.05019470238349951,
+            "other_protection": 0.0,
+            "refusal": 0.41638495442680473,
+            "administrative_closure": 0.5334203431896958
+          },
+          "predicted_shares": {
+            "grant": 0.20567755005049085,
+            "other_protection": 0.026414237403976273,
+            "refusal": 0.4108056087648042,
+            "administrative_closure": 0.3571026037807289
+          },
+          "calibration": {
+            "grant": [
+              {
+                "bin": 2,
+                "decisions": 46738,
+                "predicted": 0.20567755005049082,
+                "observed": 0.05019470238349951
+              }
+            ],
+            "other_protection": [
+              {
+                "bin": 0,
+                "decisions": 46738,
+                "predicted": 0.02641423740397628,
+                "observed": 0.0
+              }
+            ],
+            "refusal": [
+              {
+                "bin": 4,
+                "decisions": 46738,
+                "predicted": 0.41080560876480404,
+                "observed": 0.41638495442680473
+              }
+            ],
+            "administrative_closure": [
+              {
+                "bin": 3,
+                "decisions": 46738,
+                "predicted": 0.3571026037807288,
+                "observed": 0.5334203431896958
+              }
+            ]
+          }
+        },
+        "smoothed_route_frequency": {
+          "decisions": 46738,
+          "log_loss": 0.906010216183615,
+          "multiclass_brier": 0.5283035561408893,
+          "observed_shares": {
+            "grant": 0.05019470238349951,
+            "other_protection": 0.0,
+            "refusal": 0.41638495442680473,
+            "administrative_closure": 0.5334203431896958
+          },
+          "predicted_shares": {
+            "grant": 0.1293094838730326,
+            "other_protection": 0.011656849886289853,
+            "refusal": 0.6417132525416643,
+            "administrative_closure": 0.2173204136990134
+          },
+          "calibration": {
+            "grant": [
+              {
+                "bin": 0,
+                "decisions": 18413,
+                "predicted": 0.031800013478049206,
+                "observed": 0.06897300820072774
+              },
+              {
+                "bin": 1,
+                "decisions": 6865,
+                "predicted": 0.12377418043420504,
+                "observed": 0.05083758193736344
+              },
+              {
+                "bin": 2,
+                "decisions": 20555,
+                "predicted": 0.20647359359481407,
+                "observed": 0.010265142301143275
+              },
+              {
+                "bin": 3,
+                "decisions": 630,
+                "predicted": 0.3418151901781182,
+                "observed": 0.48095238095238096
+              },
+              {
+                "bin": 4,
+                "decisions": 192,
+                "predicted": 0.4480260889638262,
+                "observed": 0.78125
+              },
+              {
+                "bin": 5,
+                "decisions": 23,
+                "predicted": 0.5371281646920056,
+                "observed": 0.782608695652174
+              },
+              {
+                "bin": 8,
+                "decisions": 60,
+                "predicted": 0.8440002897178779,
+                "observed": 0.75
+              }
+            ],
+            "other_protection": [
+              {
+                "bin": 0,
+                "decisions": 46738,
+                "predicted": 0.011656849886289851,
+                "observed": 0.0
+              }
+            ],
+            "refusal": [
+              {
+                "bin": 1,
+                "decisions": 536,
+                "predicted": 0.15347625847319285,
+                "observed": 0.5988805970149254
+              },
+              {
+                "bin": 2,
+                "decisions": 46,
+                "predicted": 0.2768330132629691,
+                "observed": 0.6304347826086957
+              },
+              {
+                "bin": 3,
+                "decisions": 10,
+                "predicted": 0.3540030046954308,
+                "observed": 0.5
+              },
+              {
+                "bin": 4,
+                "decisions": 20040,
+                "predicted": 0.4110249565104269,
+                "observed": 0.02964071856287425
+              },
+              {
+                "bin": 5,
+                "decisions": 1191,
+                "predicted": 0.5317932248522705,
+                "observed": 0.4357682619647355
+              },
+              {
+                "bin": 6,
+                "decisions": 1705,
+                "predicted": 0.6260054184677417,
+                "observed": 0.4064516129032258
+              },
+              {
+                "bin": 7,
+                "decisions": 1517,
+                "predicted": 0.7379932114366843,
+                "observed": 0.4278180619644034
+              },
+              {
+                "bin": 8,
+                "decisions": 18444,
+                "predicted": 0.8610319433864185,
+                "observed": 0.7740186510518325
+              },
+              {
+                "bin": 9,
+                "decisions": 3249,
+                "predicted": 0.9097575902645588,
+                "observed": 0.7309941520467836
+              }
+            ],
+            "administrative_closure": [
+              {
+                "bin": 0,
+                "decisions": 23193,
+                "predicted": 0.07186186945256204,
+                "observed": 0.1692320958910016
+              },
+              {
+                "bin": 1,
+                "decisions": 699,
+                "predicted": 0.1325096966312641,
+                "observed": 0.24177396280400573
+              },
+              {
+                "bin": 2,
+                "decisions": 694,
+                "predicted": 0.2632280298816492,
+                "observed": 0.6340057636887608
+              },
+              {
+                "bin": 3,
+                "decisions": 21069,
+                "predicted": 0.3573771041475694,
+                "observed": 0.9518724191940766
+              },
+              {
+                "bin": 4,
+                "decisions": 566,
+                "predicted": 0.4623612535462615,
+                "observed": 0.3003533568904594
+              },
+              {
+                "bin": 5,
+                "decisions": 41,
+                "predicted": 0.5914739887462841,
+                "observed": 0.4146341463414634
+              },
+              {
+                "bin": 8,
+                "decisions": 476,
+                "predicted": 0.8394947820108799,
+                "observed": 0.32563025210084034
+              }
+            ]
+          }
+        }
+      },
+      "test_seen_routes": {
+        "decisions": 26812,
+        "log_loss": 0.9282301868709567,
+        "multiclass_brier": 0.5412562761848039,
+        "observed_shares": {
+          "grant": 0.08585707891988661,
+          "other_protection": 0.0,
+          "refusal": 0.7057660748918395,
+          "administrative_closure": 0.2083768461882739
+        },
+        "predicted_shares": {
+          "grant": 0.3053269002482915,
+          "other_protection": 0.000979946507829976,
+          "refusal": 0.5084522632780349,
+          "administrative_closure": 0.18524088996584379
+        },
+        "calibration": {
+          "grant": [
+            {
+              "bin": 0,
+              "decisions": 31,
+              "predicted": 0.09025248585648027,
+              "observed": 0.0
+            },
+            {
+              "bin": 1,
+              "decisions": 4112,
+              "predicted": 0.15238625136683814,
+              "observed": 0.024319066147859923
+            },
+            {
+              "bin": 2,
+              "decisions": 1972,
+              "predicted": 0.2804204628377843,
+              "observed": 0.12474645030425964
+            },
+            {
+              "bin": 3,
+              "decisions": 17477,
+              "predicted": 0.32220907229166096,
+              "observed": 0.08411054528809292
+            },
+            {
+              "bin": 4,
+              "decisions": 2893,
+              "predicted": 0.41031024606072775,
+              "observed": 0.08468717594192879
+            },
+            {
+              "bin": 5,
+              "decisions": 327,
+              "predicted": 0.5680431368931073,
+              "observed": 0.7370030581039755
+            }
+          ],
+          "other_protection": [
+            {
+              "bin": 0,
+              "decisions": 26812,
+              "predicted": 0.0009799465078299753,
+              "observed": 0.0
+            }
+          ],
+          "refusal": [
+            {
+              "bin": 3,
+              "decisions": 789,
+              "predicted": 0.3701781463123424,
+              "observed": 0.2217997465145754
+            },
+            {
+              "bin": 4,
+              "decisions": 11922,
+              "predicted": 0.4583204959184644,
+              "observed": 0.7204328132863613
+            },
+            {
+              "bin": 5,
+              "decisions": 12148,
+              "predicted": 0.5301156362104682,
+              "observed": 0.7376522884425419
+            },
+            {
+              "bin": 6,
+              "decisions": 366,
+              "predicted": 0.6250147470041124,
+              "observed": 0.47540983606557374
+            },
+            {
+              "bin": 7,
+              "decisions": 1587,
+              "predicted": 0.7610928967498605,
+              "observed": 0.6452425960932577
+            }
+          ],
+          "administrative_closure": [
+            {
+              "bin": 0,
+              "decisions": 485,
+              "predicted": 0.08870660787002396,
+              "observed": 0.10515463917525773
+            },
+            {
+              "bin": 1,
+              "decisions": 17793,
+              "predicted": 0.14707053660819294,
+              "observed": 0.19485190805372898
+            },
+            {
+              "bin": 2,
+              "decisions": 5963,
+              "predicted": 0.22607096831399054,
+              "observed": 0.12275700150930739
+            },
+            {
+              "bin": 3,
+              "decisions": 1596,
+              "predicted": 0.3372654038827301,
+              "observed": 0.5275689223057645
+            },
+            {
+              "bin": 4,
+              "decisions": 975,
+              "predicted": 0.4312750876148726,
+              "observed": 0.5076923076923077
+            }
+          ]
+        }
+      },
+      "test_unseen_routes": {
+        "decisions": 19926,
+        "log_loss": 1.854702520647802,
+        "multiclass_brier": 1.1382902894721543,
+        "observed_shares": {
+          "grant": 0.0022081702298504466,
+          "other_protection": 0.0,
+          "refusal": 0.026999899628625916,
+          "administrative_closure": 0.9707919301415237
+        },
+        "predicted_shares": {
+          "grant": 0.22161694972462076,
+          "other_protection": 0.0009001500318876675,
+          "refusal": 0.6256686107196213,
+          "administrative_closure": 0.15181428952387044
+        },
+        "calibration": {
+          "grant": [
+            {
+              "bin": 1,
+              "decisions": 48,
+              "predicted": 0.16748352712214276,
+              "observed": 0.0
+            },
+            {
+              "bin": 2,
+              "decisions": 19831,
+              "predicted": 0.22141130463260236,
+              "observed": 0.0016640613181382684
+            },
+            {
+              "bin": 3,
+              "decisions": 47,
+              "predicted": 0.36367124982539195,
+              "observed": 0.23404255319148937
+            }
+          ],
+          "other_protection": [
+            {
+              "bin": 0,
+              "decisions": 19926,
+              "predicted": 0.0009001500318876675,
+              "observed": 0.0
+            }
+          ],
+          "refusal": [
+            {
+              "bin": 2,
+              "decisions": 5,
+              "predicted": 0.2986325769109691,
+              "observed": 1.0
+            },
+            {
+              "bin": 3,
+              "decisions": 47,
+              "predicted": 0.375664771412476,
+              "observed": 1.0
+            },
+            {
+              "bin": 4,
+              "decisions": 189,
+              "predicted": 0.48990592169558494,
+              "observed": 0.10582010582010581
+            },
+            {
+              "bin": 5,
+              "decisions": 28,
+              "predicted": 0.5685907986359385,
+              "observed": 0.5357142857142857
+            },
+            {
+              "bin": 6,
+              "decisions": 19657,
+              "predicted": 0.6277362043290411,
+              "observed": 0.02294348069390039
+            }
+          ],
+          "administrative_closure": [
+            {
+              "bin": 1,
+              "decisions": 19709,
+              "predicted": 0.15023742544851357,
+              "observed": 0.975391952914912
+            },
+            {
+              "bin": 2,
+              "decisions": 145,
+              "predicted": 0.23992657991891436,
+              "observed": 0.8275862068965517
+            },
+            {
+              "bin": 3,
+              "decisions": 30,
+              "predicted": 0.377045173060926,
+              "observed": 0.0
+            },
+            {
+              "bin": 4,
+              "decisions": 42,
+              "predicted": 0.42670013351946856,
+              "observed": 0.0
+            }
+          ]
+        }
+      },
+      "train_years": [
+        2000,
+        2023
+      ]
+    }
+  }
+}
