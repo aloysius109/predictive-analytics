@@ -4,10 +4,10 @@
   const formatPercent = value => new Intl.NumberFormat('en-GB', {style: 'percent', maximumFractionDigits: 1, minimumFractionDigits: 1}).format(value);
   const formatInteger = value => new Intl.NumberFormat('en-GB').format(value);
   const categories = [
-    ['grant', 'Grant', 'Recognised as a refugee', '#267866'],
-    ['other_protection', 'Other protection', 'Complementary forms of protection', '#507dba'],
-    ['refusal', 'Refusal', 'Claim rejected', '#c56b50'],
-    ['administrative_closure', 'Administrative closure', 'Otherwise closed without a substantive decision', '#8c96a2']
+    ['grant', 'Grant', 'Recognised as a refugee', '#7950a0'],
+    ['other_protection', 'Other protection', 'Complementary forms of protection', '#238477'],
+    ['refusal', 'Refusal', 'Claim rejected', '#cc7658'],
+    ['administrative_closure', 'Administrative closure', 'Otherwise closed without a substantive decision', '#7e899c']
   ];
   let engine, current;
   function options(select, codes, selected) {
@@ -57,14 +57,14 @@
     const left = 45, right = 780, top = 16, bottom = 211;
     const x = year => left + (year - first) / (end - first) * (right - left);
     const y = p => bottom - p * (bottom - top);
-    shape('rect', {x: x(last), y: top, width: x(end)-x(last), height: bottom-top, fill: '#f4ecdf'});
+    shape('rect', {x: x(last), y: top, width: x(end)-x(last), height: bottom-top, fill: '#f7eddf'});
     for (const p of [0, .25, .5, .75, 1]) {
-      shape('line', {x1: left, y1: y(p), x2: right, y2: y(p), stroke: '#e7ebe6', 'stroke-width': 1});
-      shape('text', {x: left-10, y: y(p)+4, 'text-anchor': 'end', fill: '#617074', 'font-size': 10}, `${p*100}%`);
+      shape('line', {x1: left, y1: y(p), x2: right, y2: y(p), stroke: '#eee6ed', 'stroke-width': 1});
+      shape('text', {x: left-10, y: y(p)+4, 'text-anchor': 'end', fill: '#706475', 'font-size': 10}, `${p*100}%`);
     }
     const ticks = new Set([first, Math.ceil((first+1)/10)*10, Math.ceil((first+11)/10)*10, last, end]);
-    for (const year of [...ticks].filter(v => v <= end)) shape('text', {x:x(year), y:bottom+23, 'text-anchor':'middle', fill:'#617074', 'font-size':10}, year);
-    shape('text', {x:x(last)+8, y:top+11, fill:'#8b6129', 'font-size':9}, 'PROJECTED');
+    for (const year of [...ticks].filter(v => v <= end)) shape('text', {x:x(year), y:bottom+23, 'text-anchor':'middle', fill:'#706475', 'font-size':10}, year);
+    shape('text', {x:x(last)+8, y:top+11, fill:'#895628', 'font-size':9}, 'PROJECTED');
     const yearly = [];
     for (let year=first; year<=end; year++) yearly.push(engine.predict(result.origin, result.asylum, year, result.unit));
     for (const [key, , , color] of categories) {
@@ -76,8 +76,8 @@
         shape('path', attrs);
       }
     }
-    shape('line', {x1:x(result.year), y1:top, x2:x(result.year), y2:bottom, stroke:'#183b43', 'stroke-width':1, opacity:.5});
-    for (const [key, , , color] of categories) shape('circle', {cx:x(result.year), cy:y(result.probabilities[key]), r:3.5, fill:color, stroke:'#fff', 'stroke-width':1.5});
+    shape('line', {x1:x(result.year), y1:top, x2:x(result.year), y2:bottom, stroke:'#33263e', 'stroke-width':1, opacity:.5});
+    for (const [key, , , color] of categories) shape('circle', {cx:x(result.year), cy:y(result.probabilities[key]), r:3.5, fill:color, stroke:'#fffdfb', 'stroke-width':1.5});
     $('chart-description').textContent = `Modelled outcomes for ${engine.data.names[result.origin]} to ${engine.data.names[result.asylum]}, ${first} to ${end}. Years after ${last} are extrapolated. Selected year: ${result.year}. Outcome colours match the four rows above.`;
   }
   function update() {
