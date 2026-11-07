@@ -1,0 +1,34 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Report UI checks</title><body><pre id="result">Running…</pre><iframe id="report" title="Report under test" src="../docs/?origin=SYR&amp;asylum=GBR&amp;year=2026" style="width:1200px;height:1400px;border:0"></iframe><script>
+(async function () {
+  let count=0;
+  const frame=document.getElementById('report');
+  const assert=(value,message)=>{if(!value)throw new Error(message);count++;};
+  const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+  try {
+    for(let i=0;i<150;i++){if(frame.contentDocument.documentElement.dataset.ready==='true')break;await sleep(100);}
+    const doc=frame.contentDocument,$=id=>doc.getElementById(id);
+    assert(doc.documentElement.dataset.ready==='true','Report failed to load');
+    assert($('protection').textContent==='82.2%','Default prediction mismatch');
+    assert($('outcome-rows').children.length===4,'Four outcomes not rendered');
+    const change=(id,value,event='change')=>{$(id).value=value;$(id).dispatchEvent(new Event(event,{bubbles:true}));};
+    change('origin','AFG');change('asylum','DEU');change('year','2027','input');
+    assert($('input-error').hidden,'Valid scenario shows error');
+    assert($('route-title').textContent.includes('Afghanistan'),'Origin selection not reflected');
+    assert(frame.contentWindow.location.search.includes('asylum=DEU'),'Shareable URL not updated');
+    assert($('year-range').value==='2027','Year slider not synchronised');
+    change('year','2031','input');
+    assert(!$('input-error').hidden && $('valid-results').hidden,'Invalid year shows stale predictions');
+    change('year','2025','input');
+    assert($('input-error').hidden && !$('valid-results').hidden,'Valid input does not recover');
+    assert($('year-badge').textContent==='Fitted history','Historical year badge incorrect');
+    change('year-range','2028','input');
+    assert($('year').value==='2028','Slider does not update year');
+    doc.querySelector('[data-origin="SYR"]').click();
+    assert($('origin').value==='SYR' && $('asylum').value==='GBR','Quick scenario does not update countries');
+    change('year','2026','input');
+    frame.style.width='390px';await sleep(200);
+    assert(doc.documentElement.scrollWidth<=frame.contentWindow.innerWidth+1,'Mobile layout overflows');
+    document.body.dataset.result='passed';document.getElementById('result').textContent=`${count} browser UI checks passed.`;
+  }catch(error){document.body.dataset.result='failed';document.getElementById('result').textContent=error.stack;}
+})();
+</script></body></html>

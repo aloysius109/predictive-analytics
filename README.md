@@ -9,6 +9,33 @@ A count-weighted **multinomial logistic regression** using UNHCR's aggregate asy
 
 The four probabilities sum to one. The output also includes **grant or other protection**, and the probability of protection **conditional on a substantive decision**. Closures remain in the main four-outcome model.
 
+## Interactive report
+
+**[Open the interactive asylum-outcome report](https://aloysius109.github.io/predictive-analytics/)**
+
+Choose a country of origin, country of asylum and decision year to see all four probabilities, combined protection, coverage notes and a modelled timeline. Share a scenario using **Copy link**, or download its probabilities as CSV. Historical fitted estimates and future extrapolations are labelled separately.
+
+The report runs entirely in the browser using the exact committed model coefficients. No application details or personal data are collected by the report. GitHub Pages hosts the static files; normal hosting logs and GitHub's privacy practices apply.
+
+To preview locally:
+
+```sh
+python scripts/build_report.py
+python -m http.server 8765
+# Open http://localhost:8765/docs/
+```
+
+The publication workflow deploys only `docs/` to GitHub Pages after relevant changes on `main`. It copies the existing model without refreshing source data or retraining. After retraining, run `python scripts/build_report.py` to update the checked-in browser model.
+
+Browser/Python inference parity checks:
+
+```sh
+python scripts/report_fixtures.py
+node tests/test_report.js
+```
+
+This verifies 43 prediction fixtures across reporting units, seen/unseen pairs and historical/future years, checks probability sums, and rejects invalid input. With the local server running, `tests/report-browser.html` runs the same checks in a browser; `tests/report-ui.html` checks controls, invalid-input recovery, scenario links and mobile overflow. Automated rendered-browser QA on the development device was blocked by its administrator policy; numerical JavaScript checks ran successfully.
+
 ## Run a prediction
 
 Python 3.12:

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore modelled probabilities of refugee status, other protection, refusal and administrative closure using UNHCR asylum decision data.">
+  <meta name="theme-color" content="#183b43">
+  <title>Asylum outcomes | Predictive Analytics</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="predictor.js" defer></script>
+  <script src="report.js" defer></script>
+</head>
+<body>
+  <header class="masthead"><a class="brand" href="./"><span class="brand-mark" aria-hidden="true">pa<span>↗</span></span><span>Predictive<br><strong>Analytics</strong></span></a><nav aria-label="Main"><a href="#methodology">How it works</a><a href="https://github.com/aloysius109/predictive-analytics">View the research <span aria-hidden="true">↗</span></a></nav></header>
+  <main>
+    <section class="intro" aria-labelledby="page-title"><div><p class="eyebrow">UNHCR DATA · INTERACTIVE REPORT</p><h1 id="page-title">Explore asylum<br><em>decision outcomes.</em></h1><p class="lede">Choose an origin, a destination and a year to explore the modelled probability of each recorded asylum outcome.</p></div><div class="data-stamp"><span class="status-dot"></span>2000–2025 data<span class="stamp-sub">Four outcomes. One complete picture.</span></div></section>
+    <div id="loading" role="status" class="notice">Loading the regression model…</div>
+    <div id="load-error" class="notice error" role="alert" hidden><strong>The model could not be loaded.</strong><p>Check your connection and try again.</p><button type="button" id="retry">Try again</button></div>
+    <section class="explorer" id="explorer" aria-label="Asylum outcome explorer" aria-busy="true">
+      <aside class="controls panel"><div class="panel-heading"><span class="step">01</span><h2>Choose your scenario</h2></div><form id="scenario"><fieldset id="inputs" disabled>
+        <label for="origin">Country of origin</label><select id="origin" name="origin" required></select>
+        <div class="route-connector" aria-hidden="true">↓</div>
+        <label for="asylum">Country of asylum</label><select id="asylum" name="asylum" required></select>
+        <div class="year-heading"><label for="year">Decision year</label><span class="year-badge" id="year-badge">Projection</span></div>
+        <input id="year" name="year" type="number" min="2000" max="2030" value="2026" required aria-describedby="year-help">
+        <input id="year-range" aria-label="Decision year slider" type="range" min="2000" max="2030" value="2026"><div class="range-labels" aria-hidden="true"><span id="range-min">2000</span><span id="range-max">2030</span></div>
+        <p class="helper" id="year-help">Years after 2025 extrapolate the model’s trends.</p>
+      </fieldset></form><div class="quick-start"><p class="small-label">TRY A SCENARIO</p><button type="button" data-origin="SYR" data-asylum="GBR" disabled>Syria → United Kingdom <span>↗</span></button><button type="button" data-origin="AFG" data-asylum="DEU" disabled>Afghanistan → Germany <span>↗</span></button><button type="button" data-origin="UKR" data-asylum="POL" disabled>Ukraine → Poland <span>↗</span></button></div><p class="scope-note">An estimate of recorded decisions for a country pair. Individual claims depend on circumstances this model cannot assess.</p></aside>
+      <div class="results" id="results" hidden>
+        <div class="results-heading"><div><p class="eyebrow">YOUR SCENARIO</p><h2><span id="route-title"></span><span class="route-year" id="route-year"></span></h2></div><button type="button" class="quiet-button" id="share">Copy link <span aria-hidden="true">↗</span></button></div>
+        <div id="input-error" class="notice error" role="alert" hidden></div>
+        <div id="valid-results"><div class="summary panel"><div class="summary-copy"><p class="small-label">GRANT OR OTHER PROTECTION</p><div class="big-probability" id="protection">—</div><p>Combined probability across all recorded outcomes, including closures.</p></div><div class="summary-detail"><span class="mini-label">Given a substantive decision</span><strong id="conditional">—</strong><p>Protection as a share of grants, other protection and refusals. Closures excluded from this measure.</p></div></div>
+        <section class="outcomes panel" aria-labelledby="outcomes-title"><div class="section-heading"><h3 id="outcomes-title">The four possible outcomes</h3><span>Sum to 100%</span></div><div class="composition" id="composition" aria-hidden="true"></div><div id="outcome-rows"></div><p class="rounding-note">Displayed percentages may differ slightly from 100% due to rounding.</p></section>
+        <div class="coverage"><div><span class="mini-label">Reporting basis</span><strong id="reporting-basis">—</strong></div><div><span class="mini-label">Recorded decisions for this pair</span><strong id="pair-decisions">—</strong></div><div><span class="mini-label">Observed pair coverage</span><strong id="pair-years">—</strong></div></div>
+        <div id="prediction-notes" class="prediction-notes" role="status" aria-live="polite"></div>
+        <section class="trajectory panel" aria-labelledby="trajectory-title"><div class="section-heading"><div><h3 id="trajectory-title">How the estimates change over time</h3><p>Modelled probabilities · fitted history and future extrapolation</p></div></div><svg id="trajectory-chart" viewBox="0 0 800 250" role="img" aria-labelledby="chart-title chart-description"><title id="chart-title">Asylum outcome probability trends</title><desc id="chart-description">Four modelled outcome probabilities over time. The shaded area after the last training year is extrapolated.</desc></svg><p class="helper">These lines show the fitted model, not observed annual outcome rates. The vertical marker shows your selected year.</p></section>
+        <div class="result-actions"><span id="update-status" aria-live="polite"></span><button type="button" class="quiet-button" id="download">Download this estimate ↓</button></div></div>
+      </div>
+    </section>
+    <section class="methodology" id="methodology" aria-labelledby="method-title"><div><p class="eyebrow">READ THE ESTIMATE IN CONTEXT</p><h2 id="method-title">What the model can tell you.</h2><p>Historical patterns provide a starting point. Changes in policy, conflict, decision practice or who applies can change future outcomes.</p></div><div class="method-cards"><details open><summary>What do the outcomes mean?</summary><p><strong>Grant:</strong> recognition as a refugee. <strong>Other protection:</strong> complementary protection. <strong>Refusal:</strong> a rejected claim. <strong>Closure:</strong> an otherwise-closed decision without a substantive grant or refusal. All four are included in the main probability distribution.</p></details><details><summary>How is the model trained?</summary><p>Multinomial logistic regression uses country-of-origin, country-of-asylum and country-pair effects, plus time trends. Outcome counts weight the training data. Cases and persons use separate models, with person-based estimates preferred where there is coverage. Authorities and procedural stages are pooled.</p><p>The decision year is when the outcome is recorded, not when an application was submitted. Decisions may include appeals; these records do not represent unique applicants.</p></details><details><summary>How well does it predict?</summary><p>On held-out 2025 person-based decisions, log loss was <strong>0.9467</strong>, compared with <strong>1.0707</strong> for the historical country-pair baseline: approximately 11.6% lower. Lower log loss is better. This is one test year, not a guarantee of future accuracy.</p><p>The case-based model performed worse than its baseline and is flagged as experimental. The model does not provide confidence intervals. Small or unseen country pairs have greater uncertainty.</p></details><details><summary>Where do the data come from?</summary><p>UNHCR’s asylum-decision statistics, using the 2000–2025 snapshot bundled in the project. The four component outcome counts define the denominator. Rows with non-country codes and zero totals are excluded. The data are not refreshed automatically.</p><p><a href="https://refugeedata.unhcr.org/en/data-finder/detail/AsylumDecisions/metadata/">UNHCR definitions and limitations ↗</a> · <a href="https://github.com/aloysius109/predictive-analytics/blob/main/README.md">Full model documentation ↗</a></p></details></div></section>
+  </main>
+  <footer><span>Predictive Analytics <span class="footer-separator">/</span> Asylum outcomes</span><span>Independent analysis using UNHCR statistics. No UNHCR endorsement.</span></footer>
+</body>
+</html>
