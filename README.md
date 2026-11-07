@@ -1,5 +1,9 @@
 # Predictive analytics: asylum decision outcomes
 
+## [Open the interactive report ↗](https://aloysius109.github.io/predictive-analytics/)
+
+Choose a country of origin, country of asylum and year to explore all four outcome probabilities. The published report opens at the link above; its source files are in [`docs/`](docs/).
+
 A count-weighted **multinomial logistic regression** using UNHCR's aggregate asylum-decision statistics. Supply a country of origin, a country of asylum and a decision year. The model returns probabilities for:
 
 1. Grant of refugee status.
