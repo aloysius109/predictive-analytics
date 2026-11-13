@@ -1,172 +1,228 @@
+/* Browser-side model loading and scenario explorer. */
 (function () {
   'use strict';
+
   const $ = id => document.getElementById(id);
-  const formatPercent = value => new Intl.NumberFormat('en-GB', {style: 'percent', maximumFractionDigits: 1, minimumFractionDigits: 1}).format(value);
-  const formatInteger = value => new Intl.NumberFormat('en-GB').format(value);
   const categories = [
     ['grant', 'Grant', 'Recognised as a refugee', '#7950a0'],
     ['other_protection', 'Other protection', 'Complementary forms of protection', '#238477'],
     ['refusal', 'Refusal', 'Claim rejected', '#cc7658'],
-    ['administrative_closure', 'Administrative closure', 'Otherwise closed without a substantive decision', '#7e899c']
+    ['administrative_closure', 'Administrative closure', 'Closed without a substantive decision', '#7e899c']
   ];
-  let engine, current;
-  function options(select, codes, selected) {
-    select.replaceChildren(...codes.sort((a, b) => engine.data.names[a].localeCompare(engine.data.names[b])).map(code => {
+  const percent = value => new Intl.NumberFormat('en-GB', {
+    style: 'percent', maximumFractionDigits: 1, minimumFractionDigits: 1
+  }).format(value);
+  const integer = value => new Intl.NumberFormat('en-GB').format(value);
+  let engine;
+  let current;
+
+  function fillOptions(select, codes, selected) {
+    const sorted = [...codes].sort((a, b) => engine.data.names[a].localeCompare(engine.data.names[b]));
+    select.replaceChildren(...sorted.map(code => {
       const option = document.createElement('option');
-      option.value = code; option.textContent = engine.data.names[code]; return option;
+      option.value = code;
+      option.textContent = engine.data.names[code] || code;
+      return option;
     }));
-    if (codes.includes(selected)) select.value = selected;
+    if (sorted.includes(selected)) select.value = selected;
   }
+
   function updateDestinations(preferred) {
     const origin = $('origin').value;
     const destinations = new Set();
-    for (const m of Object.values(engine.data.models)) {
-      if (m.origins.includes(origin)) for (const code of m.asylum_countries) destinations.add(code);
-    }
-    options($('asylum'), [...destinations], preferred);
+    Object.values(engine.data.models).forEach(model => {
+      if (model.origins.includes(origin)) model.asylum_countries.forEach(code => destinations.add(code));
+    });
+    fillOptions($('asylum'), [...destinations], preferred);
     updateBounds();
   }
+
   function updateBounds() {
+    if (!engine || !$('origin').value || !$('asylum').value) return;
     const units = engine.candidates($('origin').value, $('asylum').value);
     const unit = units.includes('P') ? 'P' : units[0];
     if (!unit) return;
     const model = engine.data.models[unit];
-    for (const input of [$('year'), $('year-range')]) {
-      input.min = model.first_year; input.max = model.last_year + 5;
-    }
+    [$('year'), $('year-range')].forEach(input => {
+      input.min = model.first_year;
+      input.max = model.last_year + 5;
+    });
     $('range-min').textContent = model.first_year;
     $('range-max').textContent = model.last_year + 5;
     $('year-help').textContent = `Years after ${model.last_year} extrapolate the model’s trends.`;
   }
-  function node(tag, text, className) {
-    const element = document.createElement(tag); element.textContent = text;
+
+  function makeNode(tag, text, className) {
+    const element = document.createElement(tag);
+    if (text !== undefined) element.textContent = text;
     if (className) element.className = className;
     return element;
   }
-  function chart(result) {
-    const svg = $('trajectory-chart');
-    svg.querySelectorAll('[data-drawn]').forEach(element => element.remove());
-    const ns = 'http://www.w3.org/2000/svg';
-    function shape(tag, attrs, text) {
-      const element = document.createElementNS(ns, tag);
-      for (const [key, value] of Object.entries(attrs)) element.setAttribute(key, value);
-      if (text !== undefined) element.textContent = text;
-      element.setAttribute('data-drawn', 'true'); svg.append(element); return element;
-    }
-    const first = result.training_years[0], last = result.training_years[1], end = last + 5;
-    const left = 45, right = 780, top = 16, bottom = 211;
-    const x = year => left + (year - first) / (end - first) * (right - left);
-    const y = p => bottom - p * (bottom - top);
-    shape('rect', {x: x(last), y: top, width: x(end)-x(last), height: bottom-top, fill: '#f7eddf'});
-    for (const p of [0, .25, .5, .75, 1]) {
-      shape('line', {x1: left, y1: y(p), x2: right, y2: y(p), stroke: '#eee6ed', 'stroke-width': 1});
-      shape('text', {x: left-10, y: y(p)+4, 'text-anchor': 'end', fill: '#706475', 'font-size': 10}, `${p*100}%`);
-    }
-    const ticks = new Set([first, Math.ceil((first+1)/10)*10, Math.ceil((first+11)/10)*10, last, end]);
-    for (const year of [...ticks].filter(v => v <= end)) shape('text', {x:x(year), y:bottom+23, 'text-anchor':'middle', fill:'#706475', 'font-size':10}, year);
-    shape('text', {x:x(last)+8, y:top+11, fill:'#895628', 'font-size':9}, 'PROJECTED');
-    const yearly = [];
-    for (let year=first; year<=end; year++) yearly.push(engine.predict(result.origin, result.asylum, year, result.unit));
-    for (const [key, , , color] of categories) {
-      for (const future of [false, true]) {
-        const points = yearly.filter(r => future ? r.year >= last : r.year <= last);
-        const d = points.map((r, i) => `${i ? 'L' : 'M'}${x(r.year)},${y(r.probabilities[key])}`).join(' ');
-        const attrs = {d, fill:'none', stroke:color, 'stroke-width':2.2, 'stroke-linecap':'round', 'stroke-linejoin':'round'};
-        if (future) attrs['stroke-dasharray'] = '5 4';
-        shape('path', attrs);
-      }
-    }
-    shape('line', {x1:x(result.year), y1:top, x2:x(result.year), y2:bottom, stroke:'#33263e', 'stroke-width':1, opacity:.5});
-    for (const [key, , , color] of categories) shape('circle', {cx:x(result.year), cy:y(result.probabilities[key]), r:3.5, fill:color, stroke:'#fffdfb', 'stroke-width':1.5});
-    $('chart-description').textContent = `Modelled outcomes for ${engine.data.names[result.origin]} to ${engine.data.names[result.asylum]}, ${first} to ${end}. Years after ${last} are extrapolated. Selected year: ${result.year}. Outcome colours match the four rows above.`;
+
+  function renderOutcomes(result) {
+    const container = $('outcomes');
+    container.replaceChildren();
+    categories.forEach(([key, label, description, color]) => {
+      const row = makeNode('div', undefined, 'outcome-row');
+      const copy = makeNode('div', undefined, 'outcome-copy');
+      copy.append(makeNode('strong', label), makeNode('span', description));
+      const value = result.probabilities[key];
+      const bar = makeNode('div', undefined, 'outcome-bar');
+      bar.setAttribute('role', 'img');
+      bar.setAttribute('aria-label', `${label}: ${percent(value)}`);
+      const fill = makeNode('span');
+      fill.style.display = 'block';
+      fill.style.width = `${value * 100}%`;
+      fill.style.height = '100%';
+      fill.style.backgroundColor = color;
+      bar.append(fill);
+      row.append(copy, bar, makeNode('strong', percent(value), 'outcome-value'));
+      container.append(row);
+    });
   }
+
+  function renderTrend(result) {
+    const container = $('trend-chart');
+    container.replaceChildren();
+    const [first, last] = result.training_years;
+    const end = last + 5;
+    const width = 800, height = 250, left = 48, right = 785, top = 18, bottom = 205;
+    const x = year => left + (year - first) / Math.max(1, end - first) * (right - left);
+    const y = value => bottom - value * (bottom - top);
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+    svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-label', `Modelled outcomes from ${first} to ${end}; years after ${last} are extrapolated.`);
+    svg.style.width = '100%';
+    svg.style.height = 'auto';
+    const add = (tag, attrs, text) => {
+      const element = document.createElementNS('http://www.w3.org/2000/svg', tag);
+      Object.entries(attrs).forEach(([key, value]) => element.setAttribute(key, value));
+      if (text !== undefined) element.textContent = text;
+      svg.append(element);
+      return element;
+    };
+    add('rect', {x: x(last), y: top, width: Math.max(0, x(end) - x(last)), height: bottom - top, fill: '#f1eaf2'});
+    [0, .25, .5, .75, 1].forEach(value => {
+      add('line', {x1: left, y1: y(value), x2: right, y2: y(value), stroke: '#e4dce3'});
+      add('text', {x: left - 8, y: y(value) + 4, 'text-anchor': 'end', fill: '#706475', 'font-size': 11}, `${value * 100}%`);
+    });
+    const years = [];
+    for (let year = first; year <= end; year++) years.push(engine.predict(result.origin, result.asylum, year, result.unit));
+    categories.forEach(([key, , , color]) => {
+      const points = years.map((entry, index) => `${index ? 'L' : 'M'}${x(entry.year)},${y(entry.probabilities[key])}`).join(' ');
+      add('path', {d: points, fill: 'none', stroke: color, 'stroke-width': 3, 'stroke-linecap': 'round'});
+    });
+    [first, Math.ceil(first / 10) * 10, Math.floor(last / 10) * 10, last, end]
+      .filter((year, index, list) => year >= first && year <= end && list.indexOf(year) === index)
+      .forEach(year => add('text', {x: x(year), y: bottom + 24, 'text-anchor': 'middle', fill: '#706475', 'font-size': 11}, String(year)));
+    add('line', {x1: x(result.year), y1: top, x2: x(result.year), y2: bottom, stroke: '#33263e', 'stroke-width': 1.5, 'stroke-dasharray': '4 4'});
+    $('trend-chart').append(svg);
+  }
+
   function update() {
-    const origin = $('origin').value, asylum = $('asylum').value, year = Number($('year').value);
+    if (!engine) return;
+    const origin = $('origin').value;
+    const asylum = $('asylum').value;
+    const year = Number($('year').value);
     $('route-title').textContent = `${engine.data.names[origin]} → ${engine.data.names[asylum]}`;
     $('route-year').textContent = Number.isFinite(year) ? ` / ${year}` : '';
     try {
       if (!$('year').value.trim()) throw new Error('Enter a decision year.');
       current = engine.predict(origin, asylum, year);
-      $('input-error').hidden = true; $('valid-results').hidden = false;
-      $('share').disabled = false; $('download').disabled = false;
+      $('input-error').hidden = true;
+      $('valid-results').hidden = false;
       $('year-range').value = year;
-      const projected = year > current.training_years[1];
-      $('year-badge').textContent = projected ? 'Projection' : 'Fitted history';
-      $('year-badge').classList.toggle('historical', !projected);
-      $('protection').textContent = formatPercent(current.probability_grant_or_other_protection);
-      $('conditional').textContent = formatPercent(current.probability_protection_given_substantive_decision);
-      $('composition').replaceChildren(); $('outcome-rows').replaceChildren();
-      for (const [key, label, description, color] of categories) {
-        const p = current.probabilities[key];
-        const segment = node('span', ''); segment.style.width = `${p*100}%`; segment.style.background = color;
-        $('composition').append(segment);
-        const row = node('div', '', 'outcome-row');
-        const dot = node('span', '', 'outcome-dot'); dot.style.background = color; dot.setAttribute('aria-hidden', 'true');
-        const copy = node('div', ''); copy.append(node('h4', label), node('p', description));
-        row.append(dot, copy, node('strong', formatPercent(p), 'outcome-value'));
-        $('outcome-rows').append(row);
-      }
-      $('reporting-basis').textContent = current.reporting_unit === 'persons' ? 'Persons' : 'Cases · experimental';
-      $('pair-decisions').textContent = current.pair_support.decisions ? formatInteger(current.pair_support.decisions) : 'Unseen pair';
-      $('pair-years').textContent = current.pair_support.first_year === null ? 'No direct observations' : `${current.pair_support.first_year}–${current.pair_support.last_year}`;
-      $('prediction-notes').replaceChildren(...current.notes.map(text => node('p', text)));
-      chart(current);
-      const url = new URL(location.href); url.search = new URLSearchParams({origin, asylum, year}).toString();
+      $('year-badge').textContent = year > current.training_years[1] ? 'Projection' : 'Fitted history';
+      $('year-badge').classList.toggle('historical', year <= current.training_years[1]);
+      $('protection').textContent = percent(current.probability_grant_or_other_protection);
+      $('recorded-decisions').textContent = current.pair_support.decisions ? integer(current.pair_support.decisions) : 'No direct records';
+      $('reporting-basis').textContent = current.reporting_unit === 'persons' ? 'Persons' : 'Cases';
+      renderOutcomes(current);
+      renderTrend(current);
+      $('update-status').textContent = `Updated for ${year}. Estimates are calculated in your browser.`;
+      const download = $('download');
+      if (download) download.disabled = false;
+      const url = new URL(location.href);
+      url.search = new URLSearchParams({origin, asylum, year}).toString();
       history.replaceState(null, '', url);
-      $('update-status').textContent = `Updated for ${year} · all probabilities calculated in your browser`;
-      document.documentElement.dataset.ready = 'true';
     } catch (error) {
-      current = null; $('input-error').textContent = error.message; $('input-error').hidden = false;
-      $('valid-results').hidden = true; $('share').disabled = true; $('download').disabled = true;
+      current = null;
+      $('input-error').textContent = error.message;
+      $('input-error').hidden = false;
+      $('valid-results').hidden = true;
+      const download = $('download');
+      if (download) download.disabled = true;
     }
   }
+
   async function load() {
     try {
-      const response = await fetch('model.json');
-      if (!response.ok) throw new Error(`Model download failed (${response.status})`);
+      const response = await fetch(new URL('model.json', location.href));
+      if (!response.ok) throw new Error(`Model download failed (${response.status}).`);
       engine = new AsylumPredictor(await response.json());
       const query = new URLSearchParams(location.search);
-      const origins = new Set(Object.values(engine.data.models).flatMap(m => m.origins));
+      const origins = new Set(Object.values(engine.data.models).flatMap(model => model.origins));
       const requestedOrigin = query.get('origin') || 'SYR';
-      options($('origin'), [...origins], requestedOrigin);
-      if (!origins.has(requestedOrigin)) throw new Error('The shared link contains an unsupported origin country.');
+      if (!origins.has(requestedOrigin)) throw new Error('This link contains an unsupported origin country.');
+      fillOptions($('origin'), [...origins], requestedOrigin);
+      updateDestinations(query.get('asylum') || 'GBR');
+      if (!$('asylum').value) throw new Error('No asylum destinations are available for this origin.');
       const requestedAsylum = query.get('asylum') || 'GBR';
-      updateDestinations(requestedAsylum);
-      if ($('asylum').value !== requestedAsylum) throw new Error('The shared link contains an unsupported asylum country.');
+      if ($('asylum').value !== requestedAsylum) throw new Error('This link contains an unsupported asylum country.');
       $('year').value = query.get('year') || '2026';
       $('inputs').disabled = false;
       document.querySelectorAll('[data-origin]').forEach(button => { button.disabled = false; });
-      $('loading').hidden = true; $('load-error').hidden = true; $('results').hidden = false;
-      $('explorer').setAttribute('aria-busy', 'false'); update();
+      $('loading').hidden = true;
+      $('load-error').hidden = true;
+      $('results').hidden = false;
+      $('explorer').setAttribute('aria-busy', 'false');
+      update();
     } catch (error) {
-      $('loading').hidden = true; $('load-error').hidden = false;
-      $('load-error').querySelector('p').textContent = `${error.message} Try again, or remove any country parameters from the address.`;
+      $('loading').hidden = true;
+      $('load-error').hidden = false;
+      $('load-error').querySelector('p').textContent = `${error.message} Check your connection and try again.`;
       $('explorer').setAttribute('aria-busy', 'false');
     }
   }
+
   $('scenario').addEventListener('submit', event => { event.preventDefault(); update(); });
   $('origin').addEventListener('change', () => { updateDestinations($('asylum').value); update(); });
   $('asylum').addEventListener('change', () => { updateBounds(); update(); });
   $('year').addEventListener('input', update);
   $('year-range').addEventListener('input', () => { $('year').value = $('year-range').value; update(); });
   document.querySelectorAll('[data-origin]').forEach(button => button.addEventListener('click', () => {
-    $('origin').value = button.dataset.origin; updateDestinations(button.dataset.asylum); update();
+    $('origin').value = button.dataset.origin;
+    updateDestinations(button.dataset.asylum);
+    update();
   }));
-  $('share').addEventListener('click', async () => {
-    try { await navigator.clipboard.writeText(location.href); $('update-status').textContent = 'Scenario link copied.'; }
-    catch { $('update-status').textContent = 'Copy the address in your browser to share this scenario.'; }
+  const retry = $('retry');
+  if (retry) retry.addEventListener('click', () => load());
+  const reset = $('reset');
+  if (reset) reset.addEventListener('click', () => {
+    const url = new URL(location.href);
+    url.search = '';
+    history.replaceState(null, '', url);
+    $('origin').value = 'SYR';
+    updateDestinations('GBR');
+    $('year').value = '2026';
+    update();
   });
-  $('download').addEventListener('click', () => {
+  const download = $('download');
+  if (download) download.addEventListener('click', () => {
     if (!current) return;
     const rows = [['origin', 'asylum', 'decision_year', 'reporting_unit', 'outcome', 'probability'],
-      ...categories.map(([key]) => [current.origin, current.asylum, current.year, current.reporting_unit, key, current.probabilities[key]])];
-    rows.push([current.origin, current.asylum, current.year, current.reporting_unit, 'grant_or_other_protection', current.probability_grant_or_other_protection]);
-    const blob = new Blob([rows.map(row => row.join(',')).join('\r\n')+'\r\n'], {type:'text/csv;charset=utf-8'});
-    const url = URL.createObjectURL(blob), a = document.createElement('a');
-    a.href = url; a.download = `asylum-outcomes-${current.origin}-${current.asylum}-${current.year}.csv`;
-    document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
-    $('update-status').textContent = 'Estimate downloaded. Future years are extrapolations.';
+      ...categories.map(([key]) => [current.origin, current.asylum, current.year, current.reporting_unit, key, current.probabilities[key]]),
+      [current.origin, current.asylum, current.year, current.reporting_unit, 'grant_or_other_protection', current.probability_grant_or_other_protection]];
+    const csv = rows.map(row => row.map(value => `"${String(value).replaceAll('"', '""')}"`).join(',')).join('\r\n') + '\r\n';
+    const objectUrl = URL.createObjectURL(new Blob([csv], {type: 'text/csv;charset=utf-8'}));
+    const anchor = document.createElement('a');
+    anchor.href = objectUrl;
+    anchor.download = `asylum-outcomes-${current.origin}-${current.asylum}-${current.year}.csv`;
+    document.body.append(anchor);
+    anchor.click();
+    anchor.remove();
+    URL.revokeObjectURL(objectUrl);
   });
-  $('retry').addEventListener('click', () => { location.search = ''; });
   load();
 })();
