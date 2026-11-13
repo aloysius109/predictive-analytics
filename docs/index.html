@@ -119,6 +119,14 @@
       text-transform: uppercase;
       color: rgba(237, 246, 213, 0.9);
     }
+    .outcome-copy {
+      display: grid;
+      gap: 0.2rem;
+    }
+    .outcome-copy strong,
+    .outcome-copy span {
+      display: block;
+    }
     @media (max-width: 720px) {
       .related-card { grid-template-columns: 1fr; }
       .related-visual { min-height: 180px; }
@@ -159,7 +167,7 @@
         <div class="related-content">
           <span class="related-kicker">Related report</span>
           <h2 class="related-title">Asylum Tracker</h2>
-          <p class="related-copy">A broader, narrative-led publication on asylum applications, decisions and country comparisons across the full 2000–2025 record. This project complements the probability model with context, evidence and a wider statistical view.</p>
+          <p class="related-copy">A broader, narrative-led publication on asylum applications, decisions and country comparisons across the full 2000–2025 record. This project complements the predictive model by placing current outcomes in a wider historical context.</p>
           <div class="related-actions">
             <a class="related-button" href="https://aloysius109.github.io/asylum-tracker/asylum/">Open the report</a>
             <a class="related-link" href="https://aloysius109.github.io/asylum-tracker/">Project home</a>
@@ -270,7 +278,7 @@
       <div>
         <p class="eyebrow">READ THE ESTIMATE IN CONTEXT</p>
         <h2 id="method-title">What the model can tell you.</h2>
-        <p>These probabilities are generated from historical UNHCR asylum decision patterns for origin–destination pairs and are designed for exploratory analysis. They indicate relative risk and trend direction rather than a guarantee of final outcomes.</p>
+        <p>These probabilities are generated from historical UNHCR asylum decision patterns for origin–destination pairs and are designed for exploratory analysis. They indicate relative risk and should be read alongside broader policy, legal and operational context.</p>
       </div>
     </section>
   </main>
