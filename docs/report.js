@@ -200,13 +200,15 @@
   if (retry) retry.addEventListener('click', () => load());
   const reset = $('reset');
   if (reset) reset.addEventListener('click', () => {
-    const url = new URL(location.href);
-    url.search = '';
-    history.replaceState(null, '', url);
     $('origin').value = 'SYR';
     updateDestinations('GBR');
     $('year').value = '2026';
     update();
+    // update() synchronizes the URL to the displayed scenario; clear it afterward
+    // so Reset also restores the clean, default link.
+    const url = new URL(location.href);
+    url.search = '';
+    history.replaceState(null, '', url);
   });
   const download = $('download');
   if (download) download.addEventListener('click', () => {
