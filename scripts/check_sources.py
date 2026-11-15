@@ -84,7 +84,8 @@ def check_links(source, status, body):
 
 def check_status(source, status, body):
     expected = source.get("status", 200)
-    if status == expected:
+    # Where the recorded state is "available", any 2xx counts: some sites answer a robot with 202.
+    if status == expected or (expected == 200 and 200 <= status < 300):
         return "unchanged", f"HTTP {status}, as recorded.", {}
     return "changed", f"HTTP {status}, recorded HTTP {expected}. {source.get('on_change', '')}".strip(), {}
 
