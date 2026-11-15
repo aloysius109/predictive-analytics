@@ -1,0 +1,11 @@
+Medium edition publishing notes
+
+1. Copy the rendered text from article.html into a new Medium story; do not paste the HTML source as a code block.
+2. Upload the three images in medium-edition/images in article order: outcome-probability-curves.png, held-out-log-loss.png, person-model-calibration.png.
+3. Keep each figure caption with its chart and set the matching descriptive alt text through Medium's image controls where available.
+4. Keep the link to the interactive report near the beginning; the model, limitations and data notes remain available there.
+5. Check headings, links, chart labels and the probability curves in Medium preview, especially on mobile. Preserve the distinction between historical fitted estimates and future extrapolation.
+6. Set the canonical link to https://aloysius109.github.io/predictive-analytics/ in story settings.
+7. Review the story before publishing. Creating this package does not publish or update anything on Medium or GitHub Pages.
+
+This is a standalone article adaptation with three static figures generated from the committed model and evaluation artifacts. It has no Quarto classes, scripts, local page links or interactive controls. The figure builder does not retrain the model or refresh source data.

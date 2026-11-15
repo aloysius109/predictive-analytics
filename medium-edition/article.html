@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="https://aloysius109.github.io/predictive-analytics/">
+  <title>What an asylum-outcome model can—and cannot—say</title>
+  <style>
+    :root { color-scheme: light; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #faf9f6; color: #292929; -webkit-font-smoothing: antialiased; }
+    article { max-width: 780px; margin: 64px auto 88px; padding: 0 32px; }
+    h1,h2 { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+    h1 { font-size: clamp(38px, 6vw, 54px); line-height: 1.08; letter-spacing: -1.8px; margin: 0 0 18px; font-weight: 750; }
+    h2 { font-size: 27px; line-height: 1.3; letter-spacing: -.5px; margin: 48px 0 18px; font-weight: 700; }
+    .subtitle { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; font-size: 23px; line-height: 1.45; color: #666; margin: 0 0 24px; font-weight: 400; letter-spacing: -.25px; }
+    .byline { font: 14px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; color: #6b6b6b; padding-bottom: 28px; margin-bottom: 32px; border-bottom: 1px solid #dfdfda; }
+    p,li { font-family: Georgia, "Times New Roman", serif; font-size: 21px; line-height: 1.75; }
+    p { margin: 0 0 25px; }
+    ul { padding-left: 26px; margin: 24px 0 30px; }
+    li { padding-left: 5px; margin: 0 0 14px; }
+    a { color: #245b50; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+    a:hover { color: #132e29; }
+    figure { margin: 36px -24px 38px; }
+    img { display: block; width: 100%; height: auto; background: #fff; }
+    figcaption { max-width: 690px; margin: 14px auto 0; padding: 0 12px; font: 14px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; color: #666; text-align: center; }
+    strong { font-weight: 700; }
+    @media (max-width: 600px) {
+      article { margin: 32px auto 48px; padding: 0 22px; }
+      h1 { letter-spacing: -1px; }
+      .subtitle { font-size: 20px; }
+      p,li { font-size: 19px; line-height: 1.7; }
+      h2 { font-size: 25px; margin-top: 38px; }
+      figure { margin: 28px -12px; }
+    }
+    @media print { body { background: #fff; } article { margin: 0 auto; } figure { break-inside: avoid; } }
+  </style>
+</head>
+<body>
+<article>
+  <h1>What an asylum-outcome model can—and cannot—say</h1>
+  <p class="subtitle">Turning aggregate UNHCR decision histories into probabilities without mistaking them for an individual applicant’s odds.</p>
+  <p class="byline">By Kathryn Hopkins · Data snapshot: UNHCR decisions, 2000–2025</p>
+
+  <p>A statistical model can summarise patterns in recorded asylum decisions. It cannot tell us what will happen to a particular person. That distinction is central to this project: the model estimates a distribution across four recorded outcomes for a country of origin, a country of asylum and a decision year. Those probabilities describe aggregate decision patterns—not an individual claim’s chance of success.</p>
+  <p><a href="https://aloysius109.github.io/predictive-analytics/">Open the interactive report</a> to explore a country pair and year. The browser app runs from the committed model coefficients; this article explains how to read its output and where its limits lie.</p>
+
+  <h2>Four outcomes, two reporting units</h2>
+  <p>The model distinguishes grants of refugee status, other protection, refusals and administrative closures. The four probabilities sum to one. Grant and other protection can also be combined, and the report shows protection conditional on a substantive decision so closures remain visible rather than disappearing from the main distribution.</p>
+  <p>UNHCR reports both persons and cases. A case may contain more than one person, and these units are not interchangeable. The model fits them separately; it never converts one into the other. It uses counts as likelihood weights rather than expanding each aggregate record into a row for every person or case.</p>
+
+  <h2>A modelled curve, not a series of observed rates</h2>
+  <p>The first chart shows one illustrative route, Syria to the United Kingdom, using the person-based model. It includes fitted estimates for 2000–2025 and shades the five-year extrapolation window after the final data year. The historical line is not a forecast: the production model was fitted using the full snapshot, including those years. The shaded extension is a projection of learned trends, not a prediction that policy, conflict or decision practice will remain unchanged.</p>
+  <figure>
+    <img src="images/outcome-probability-curves.png" alt="Person-based model probabilities for recorded decisions on the Syria-to-United Kingdom route, 2000 to 2030, across grant, other protection, refusal and administrative closure. The shaded 2026–2030 section is extrapolation beyond the 2000–2025 data snapshot.">
+    <figcaption>Figure 1. Illustrative modelled outcome distribution for Syria to the United Kingdom. Historical fitted estimates through 2025 are separated from the model’s 2026–2030 extrapolation.</figcaption>
+  </figure>
+  <p>The model combines regularised origin-country, asylum-country and country-pair effects with a linear year trend and origin- and destination-specific trends. It pools the authorities and procedural stages present in the source because those are not model inputs. Country effects therefore describe historical associations; they do not establish causes.</p>
+
+  <h2>Performance depends on the reporting unit</h2>
+  <p>The model was tested on 2025, a year held out from parameter selection and fitting. For persons, it achieved a decision-weighted log loss of <strong>0.9467</strong>, compared with 1.0707 for a historical country-pair baseline and 1.2632 for a global-frequency baseline, across 2,375,264 recorded decisions. That is an encouraging result on this one temporal holdout, not proof of general forecasting superiority.</p>
+  <p>The case-based result is different. Its log loss was <strong>1.3232</strong>, worse than both the country-pair baseline (0.9060) and global-frequency baseline (0.9991), across 46,738 recorded decisions. The app labels case-based estimates experimental. Lower log loss is better in both panels.</p>
+  <figure>
+    <img src="images/held-out-log-loss.png" alt="Decision-weighted 2025 holdout log loss for persons and cases. The person-based multinomial model scores 0.947 versus 1.071 and 1.263 for the baselines. The case-based model scores 1.323, worse than its 0.906 country-pair and 0.999 global-frequency baselines. Lower is better.">
+    <figcaption>Figure 2. Temporal holdout log loss by reporting unit and method. The validation year was 2024 for persons and 2023 for cases; both final tests use 2025.</figcaption>
+  </figure>
+
+  <h2>Calibration is not guaranteed by a good average score</h2>
+  <p>The third chart compares predicted and observed shares within probability bins for the person-based 2025 holdout. Points on the dashed diagonal are calibrated on average; points away from it show where the observed share differed from the model’s mean probability. The bins are weighted by recorded decision counts, but the chart does not provide confidence intervals or measure uncertainty about policy or future events.</p>
+  <figure>
+    <img src="images/person-model-calibration.png" alt="Calibration plot for the person-based 2025 holdout. Points show observed outcome shares against mean predicted probabilities in bins for grants, other protection, refusals and administrative closures; the dashed diagonal marks perfect average calibration.">
+    <figcaption>Figure 3. Probability-bin calibration for the person-based 2025 holdout. Bubble size reflects the number of recorded decisions in each bin.</figcaption>
+  </figure>
+
+  <h2>What the probabilities leave out</h2>
+  <p>The source contains aggregate decision counts, not linked applicant histories. One person can receive multiple decisions, including on appeal, and the data do not identify those decisions as belonging to the same person. UNHCR also notes that appeal reporting is incomplete. Differences in stage, authority and coverage can therefore shape the observed mix.</p>
+  <p>Historical fitted estimates use a production model that includes the selected year. Future-year values extrapolate a linear time pattern for at most five years beyond 2025; they cannot anticipate changes in law, conflict, population or administrative practice. A probability should be read alongside the model’s coverage notes and the underlying evidence, never as an individual assessment.</p>
+
+  <h2>Data and method</h2>
+  <p>The model uses a fixed UNHCR aggregate snapshot for 2000–2025. It groups reported counts by origin, asylum country, decision year and unit. Non-country rows and zero-count groups are excluded and audited; the source data are not refreshed when the report is published. The 2025 test is a single temporal holdout, and confidence intervals are not provided.</p>
+  <p><a href="https://aloysius109.github.io/predictive-analytics/">Explore the interactive report</a> · <a href="https://github.com/aloysius109/predictive-analytics">View the model code and reproducibility notes</a> · <a href="https://www.unhcr.org/refugee-statistics/">UNHCR refugee statistics</a></p>
+  <p>UNHCR is the data provider and does not endorse this model. Source statistics remain subject to <a href="https://www.unhcr.org/refugee-statistics/">UNHCR’s terms of use</a>. Independent analysis by Kathryn Hopkins.</p>
+</article>
+</body>
+</html>

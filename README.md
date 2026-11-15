@@ -150,3 +150,11 @@ The first four sum to 100% before display rounding. These are model outputs, not
 - [Scikit-learn logistic regression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) — multinomial fitting and sample weights.
 
 UNHCR is the data provider and does not endorse this model. Source statistics remain subject to [UNHCR's terms of use](https://www.unhcr.org/refugee-statistics/).
+
+## Medium edition
+
+Run `python scripts/build_medium.py` to generate the three static figures in `medium-edition/images/` from the committed `artifacts/model.json` and `artifacts/evaluation.json`. This build does not retrain the model or refresh its source data. The standalone article and `PUBLISHING.txt` are a manual Medium handoff; the static site remains the interactive version.
+
+## Analytics
+
+The report uses GoatCounter, configured in `docs/index.html`. Update the `data-goatcounter` URL in that page if the account changes. It is used without cookies, a consent banner or personal-data collection.
