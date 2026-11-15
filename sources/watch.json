@@ -1,0 +1,24 @@
+{
+  "title": "Predictive analytics — source watch",
+  "note": "Baselined against the snapshot the committed coefficients were fitted on, recorded in data/provenance.json as raw_csv_sha256. Re-baseline with `python scripts/check_sources.py --update` only after a retrain has been adopted.",
+  "sources": [
+    {
+      "id": "asylum-tracker-decisions",
+      "label": "UNHCR asylum decisions snapshot published by asylum-tracker",
+      "url": "https://raw.githubusercontent.com/aloysius109/asylum-tracker/main/asylum-decisions.csv",
+      "check": "bytes",
+      "sha256": "5112b825e82d64b707242bb8775f3d9071b31fec669afccef857358658384415",
+      "bytes": 6425657,
+      "note": "Byte-identical to data/asylum-decisions.csv.gz once decompressed. asylum-tracker adopts new UNHCR editions deliberately, so a change here means this model is fitted on superseded data."
+    },
+    {
+      "id": "unhcr-asylum-decisions-metadata",
+      "label": "UNHCR asylum-decision metadata page cited by the report",
+      "url": "https://refugeedata.unhcr.org/en/data-finder/detail/AsylumDecisions/metadata/",
+      "check": "status",
+      "status": 200,
+      "on_change": "The outcome definitions and reporting limitations cited by the report are no longer at this address.",
+      "note": "Availability only: the page's markup changes for reasons unrelated to the definitions."
+    }
+  ]
+}

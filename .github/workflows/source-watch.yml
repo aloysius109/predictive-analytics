@@ -1,0 +1,52 @@
+name: Source watch
+on:
+  schedule:
+    - cron: "31 7 * * 1"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/check_sources.py"
+      - "sources/watch.json"
+      - ".github/workflows/source-watch.yml"
+permissions:
+  contents: read
+  issues: write
+concurrency:
+  group: source-watch
+  cancel-in-progress: false
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - id: watch
+        name: Compare the training snapshot with the recorded baseline
+        run: python scripts/check_sources.py --report source-watch.md
+      - name: Report a revised snapshot as an issue
+        if: steps.watch.outputs.drift == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh label create source-watch --color ededed \
+            --description "Upstream data source changed or unreachable" --force
+          state=$(grep -o 'source-watch:[0-9a-f]\{12\}' source-watch.md | head -n 1)
+          for number in $(gh issue list --label source-watch --state all --limit 20 --json number --jq '.[].number'); do
+            if gh issue view "$number" --json body,comments --jq '[.body] + [.comments[].body] | join("\n")' \
+                 | grep -qF "$state"; then
+              echo "Issue #$number already reports $state. Close it to dismiss this state."
+              exit 0
+            fi
+          done
+          open=$(gh issue list --label source-watch --state open --limit 1 --json number --jq '.[].number')
+          if [ -n "$open" ]; then
+            gh issue comment "$open" --body-file source-watch.md
+          else
+            gh issue create --title "Source watch: the training snapshot has changed ($(date -u +%Y-%m-%d))" \
+              --label source-watch --body-file source-watch.md
+          fi

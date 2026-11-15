@@ -100,6 +100,14 @@ python asylum_model.py train --data path/to/asylum-decisions.csv --output artifa
 
 Update the provenance file when replacing the bundled source snapshot. Training does not fetch or silently refresh data.
 
+## Source watch
+
+`sources/watch.json` records the snapshot these coefficients were fitted on: the SHA-256 in `data/provenance.json`, which is the `asylum-decisions.csv` that `asylum-tracker` publishes, plus the availability of the UNHCR metadata page the report cites. Run `python scripts/check_sources.py` to compare that baseline with what those addresses serve today; the script only reads upstream, and never retrains or republishes.
+
+The **Source watch** workflow runs the same check every Monday and opens an issue labelled `source-watch` when the snapshot changes or a source cannot be read. Each distinct state is reported once: closing the issue dismisses that state, and a new state is added as a comment on the open issue. GitHub disables scheduled workflows after 60 days without repository activity; if this project sits untouched for two months, dispatch the workflow manually to re-enable it.
+
+Retraining on a revised snapshot moves every published probability, so it is a deliberate decision: retrain, update `data/provenance.json`, re-run the tests and the report build, then re-baseline the watcher with `python scripts/check_sources.py --update`.
+
 ## Method and evaluation
 
 The multinomial model includes regularized effects for origin, asylum country and their pair, a linear year trend, and origin-specific and asylum-specific year trends. Year is centered on 2010 and scaled in decades. Unseen country pairs can use learned country effects and trends; a country with no coverage in the selected model is rejected rather than assigned an arbitrary default.
