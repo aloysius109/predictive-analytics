@@ -1,6 +1,7 @@
 """Copy the exact model to the static report, without fitting or refreshing data."""
 import json
 from pathlib import Path
+from publish_summary import publish_summary_html
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -18,6 +19,13 @@ def main():
     target = ROOT / 'docs/model.json'
     target.write_text(json.dumps(model, separators=(',', ':'), allow_nan=False), encoding='utf-8')
     (ROOT / 'docs/.nojekyll').touch()
+    article = ROOT / 'medium-edition/article.html'
+    publish_summary_html(
+        article.read_text(encoding='utf-8'),
+        ROOT / 'docs',
+        'https://aloysius109.github.io/predictive-analytics/',
+        ROOT / 'medium-edition/images',
+    )
     print(f'Staged model for the report: {target.stat().st_size:,} bytes')
 
 
